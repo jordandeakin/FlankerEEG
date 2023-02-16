@@ -12,7 +12,7 @@ for iTrial = 1:height(trialMat)
 
 
     % Create RDK objects
-    target = rdk('display',display,'nDots',50,'coherence',coherence,'direction',targetDir,'speed',3,'centre',[w.Xrect, w.Yrect],'lifetime',100,'itemApertureSize',3);
+    target = rdk('display',display,'nDots',50,'coherence',coherence,'direction',targetDir,'speed',3,'centre',[w.Xrect, w.Yrect],'lifetime',.5*w.frame_rate,'itemApertureSize',3);
    
         % Fixation Cross
     DrawFormattedText(w.ptr,'+','center','center',fix_colour,100,[],[],2);
