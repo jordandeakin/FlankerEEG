@@ -10,11 +10,18 @@ i.e. start_experiment([20 90],100)
 
 + Things to note.
   In this repository, all Labjack commands are currently commented out. Ensure these are uncommented before use.
-  Trials per cell refers to the number of trials per combination of Motion Direction and Coherence in the single RDK task and per combination of Motion Direction, Coherence & Congruency in the flanker task.
+  Trials per cell refers to the number of trials per combination of 
+  Motion Direction and Coherence in the single RDK task and per combination of Motion Direction, 
+  Coherence & Congruency in the flanker task.
    
-The experiment can be quit any time using the 'q' button the keyboard. Instruct participants to not touch the letter Q!
+The experiment can be quit any time using the 'q' button the keyboard. 
+Instruct participants to not touch the letter Q!
+
 The keys to respond are 'z' for leftwards movement and 'm' for rightwards movement.
-The code asks for the following demographic information: age, gender and participant number. This information is saved to a structure variable (along with the trial sequence). The trial sequence is written to the datafile after each block.
+
+The code asks for the following demographic information: 
+age, gender and participant number. This information is saved to a structure 
+variable (along with the trial sequence). The trial sequence is written to the datafile after each block.
 
 
 
