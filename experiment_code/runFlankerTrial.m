@@ -35,6 +35,7 @@ for iTrial = 1:height(trialMat)
 
     vbl = Screen('Flip',w.ptr);
     onsetTime = GetSecs;
+    %sendLJ_Matlab(L,condCode);
 
     responseMade = false;
     iFrame = 0;
