@@ -109,6 +109,10 @@ if mod(iTrial,32) == 0
 breakScreen(w);
 end
 
+    % Pause for EEG
+    %    Screen('Flip',w.ptr)
+    %pause(.5)
+
 end
 
 RestrictKeysForKbCheck(KbName('space'))

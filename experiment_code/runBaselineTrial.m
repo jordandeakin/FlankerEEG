@@ -13,23 +13,23 @@ for iTrial = 1:height(trialMat)
 
     % Create RDK objects
     target = rdk('display',display,'nDots',50,'coherence',coherence,'direction',targetDir,'speed',3,'centre',[w.Xrect, w.Yrect],'lifetime',.5*w.frame_rate,'itemApertureSize',3);
-   
-        % Fixation Cross
+
+    % Fixation Cross
     DrawFormattedText(w.ptr,'+','center','center',fix_colour,100,[],[],2);
-   % sendLJ_Matlab(L,1); % Send Fixation to LJ.
+    % sendLJ_Matlab(L,1); % Send Fixation to LJ.
     Screen('Flip',w.ptr);
     WaitSecs(.5)
 
 
     % Draw initial positions.
     Screen('DrawDots', w.ptr, [target.dotX;target.dotY],2,[255 255 255],[],1);
-   
 
 
-   %sendLJ_Matlab(L,condCode);
+
+    %sendLJ_Matlab(L,condCode);
     vbl = Screen('Flip',w.ptr);
     onsetTime = GetSecs;
- 
+
 
     responseMade = false;
     iFrame = 0;
@@ -38,20 +38,20 @@ for iTrial = 1:height(trialMat)
     while ~responseMade
         iFrame = iFrame + 1;
 
-      % Animation
+        % Animation
         moveDots(target); % move the dots.
         checkIfOut(target); % check if any dots are outside the aperture.
         checkIfDead(target); % check if any dots are dead.
 
-      
+
         % Initialise dot postitions.
         Screen('DrawDots', w.ptr, [target.dotX;target.dotY],2,[255 255 255],[],1);
-         [vbl] =  Screen('Flip',w.ptr,vbl + 0.5 * w.ifi);
+        [vbl] =  Screen('Flip',w.ptr,vbl + 0.5 * w.ifi);
 
 
 
         [ keyIsDown, secs, keyCode ] = KbCheck;
-                % Check for quits.
+        % Check for quits.
         if keyIsDown && keyCode(KbName('q'))
             sca
             error('quit')
@@ -91,10 +91,11 @@ for iTrial = 1:height(trialMat)
 
     if mod(iTrial,32) == 0
         breakScreen(w);
-        
     end
 
-
+    % Pause for EEG
+    %    Screen('Flip',w.ptr)
+    %pause(.5)
 
 end
 
