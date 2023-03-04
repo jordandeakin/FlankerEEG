@@ -1,6 +1,6 @@
 function [data,window, filename, display] = initDisplay()
 % Demographic information.
-data.demographics.number = str2double(inputdlg('Enter participant number'));
+data.demographics.ID = str2double(inputdlg('Enter participant number'));
 data.demographics.age = str2double(inputdlg('Enter participant age'));
 data.demographics.gender = string(inputdlg('Enter participant gender'));
 
@@ -27,7 +27,7 @@ tmp = Screen('Resolution',0);
 window.resolution = [tmp.width,tmp.height];
 window.frame_rate = 1/window.ifi;
 
-Screen('TextSize',window.ptr,24);
+Screen('TextSize',window.ptr,32);
 Screen('TextFont',window.ptr,'Calibri');
 
 
@@ -35,7 +35,7 @@ Screen('TextFont',window.ptr,'Calibri');
 h1 = datestr(now,30);
 s = strfind(h1, ' ');
 h1(s) = '_';
-filename = sprintf('P%d_vs_%s',data.demographics.number, h1);
+filename = sprintf('P%d_vs_%s',data.demographics.ID, h1);
 display.dist = 60;%cm
 display.width = 29;%cm
 display.resolution = window.resolution;

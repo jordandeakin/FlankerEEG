@@ -1,9 +1,14 @@
 function trialMat = runBaselineTrial(L,trialMat,display,w)
-RestrictKeysForKbCheck([KbName('z') KbName('m') KbName('q')])
-fix_colour = [255 255 255];
+RestrictKeysForKbCheck([KbName('z') KbName('m') KbName('q')]);
+
+% Feedback is auditory by default but feedback can be provided through the
+% fixation cross colour if needed.
+[y, Fs] = audioread('incorrectTone.mp3');
+%fix_colour = [255 255 255];
 
 for iTrial = 1:height(trialMat)
 
+    % Trial Settings
     targetDir = trialMat.TargetDir(iTrial);
     coherence = trialMat.Coherence(iTrial);
     practice = trialMat.Practice(iTrial);
@@ -15,8 +20,8 @@ for iTrial = 1:height(trialMat)
     target = rdk('display',display,'nDots',50,'coherence',coherence,'direction',targetDir,'speed',3,'centre',[w.Xrect, w.Yrect],'lifetime',.5*w.frame_rate,'itemApertureSize',3);
 
     % Fixation Cross
-    DrawFormattedText(w.ptr,'+','center','center',fix_colour,100,[],[],2);
-    % sendLJ_Matlab(L,1); % Send Fixation to LJ.
+    DrawFormattedText2('<size=64>+','win',w.ptr,'sx','center','sy','center','xalign','center','yalign','center','xlayout','center','baseColor',[255 255 255]);
+   % sendLJ_Matlab(L,1); % Send Fixation to LJ.
     Screen('Flip',w.ptr);
     WaitSecs(.5)
 
@@ -26,9 +31,9 @@ for iTrial = 1:height(trialMat)
 
 
 
-    %sendLJ_Matlab(L,condCode);
+    %sendLJ_Matlab(L,condCode); % Send the condition code to LabJack
     vbl = Screen('Flip',w.ptr);
-    onsetTime = GetSecs;
+    onsetTime = GetSecs; % Get the onset time of the flip. Used to calculate RT.
 
 
     responseMade = false;
@@ -44,7 +49,7 @@ for iTrial = 1:height(trialMat)
         checkIfDead(target); % check if any dots are dead.
 
 
-        % Initialise dot postitions.
+        % Reinitialise dot postitions.
         Screen('DrawDots', w.ptr, [target.dotX;target.dotY],2,[255 255 255],[],1);
         [vbl] =  Screen('Flip',w.ptr,vbl + 0.5 * w.ifi);
 
@@ -59,36 +64,40 @@ for iTrial = 1:height(trialMat)
 
         if keyIsDown == 1
             responseMade = true;
+             trialMat.RT(iTrial) = secs - onsetTime;
+             
             if keyCode(KbName('m')) == 1
                 if targetDir == 0
                     trialMat.Correct(iTrial) = 1;
-                    % sendLJ_Matlab(L,2);
-                    fix_colour = [0, 255, 0];
+                    % sendLJ_Matlab(L,2); % Send Correct Response to
+                    % LabJack
+                   % fix_colour = [0, 255, 0];
                 else
                     trialMat.Correct(iTrial) = 0;
-                    %  sendLJ_Matlab(L,3);
-                    fix_colour = [255, 0, 0];
+                    %  sendLJ_Matlab(L,3); % Send incorrect response to
+                    %  LabJack.
+                  %  fix_colour = [255, 0, 0];
                 end
             elseif keyCode(KbName('z')) == 1
                 if targetDir == 180
                     trialMat.Correct(iTrial) = 1;
                     % sendLJ_Matlab(L,2);
-                    fix_colour = [0, 255, 0];
+                  %  fix_colour = [0, 255, 0];
                 else
                     trialMat.Correct(iTrial) = 0;
                     % sendLJ_Matlab(L,3);
-                    fix_colour = [255,0, 0];
+                  %  fix_colour = [255,0, 0];
                 end
             end
 
-            if ~practice
-                fix_colour = [255, 255,255];
+            % If it is a practice trial, give auditory feedback.
+            if practice && trialMat.Correct(iTrial) == 0
+                   sound(y, Fs, 16);
             end
-            trialMat.RT(iTrial) = secs - onsetTime;
         end
     end
 
-
+% Every 32 trials, give the participant a break.
     if mod(iTrial,32) == 0
         breakScreen(w);
     end

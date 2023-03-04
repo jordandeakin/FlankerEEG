@@ -1,7 +1,7 @@
 function trialMat = runFlankerTrial(L,trialMat,display,w)
-
+[y, Fs] = audioread('incorrectTone.mp3');
 RestrictKeysForKbCheck([KbName('z') KbName('m') KbName('q')])
-fix_colour = [255 255 255];
+%fix_colour = [255 255 255];
 
 for iTrial = 1:height(trialMat)
 
@@ -18,9 +18,10 @@ for iTrial = 1:height(trialMat)
     leftFlank = rdk('display',display,'nDots',50,'coherence',coherence,'direction',flankerDir,'speed',3,'centre',[w.Xrect-300; w.Yrect],'lifetime',.5*w.frame_rate,'itemApertureSize',3);
     rightFlank = rdk('display',display,'nDots',50,'coherence',coherence,'direction',flankerDir,'speed',3,'centre',[w.Xrect+300; w.Yrect],'lifetime',.5*w.frame_rate,'itemApertureSize',3);
 
-        % Fixation Cross
-    DrawFormattedText(w.ptr,'+','center','center',fix_colour,100,[],[],2);
-%     sendLJ_Matlab(L,1); % Send Fixation to LJ.
+    % Fixation Cross
+    DrawFormattedText2('<size=64>+','win',w.ptr,'sx','center','sy','center','xalign','center','yalign','center','xlayout','center','baseColor',[255 255 255]);
+
+    %     sendLJ_Matlab(L,1); % Send Fixation to LJ.
     Screen('Flip',w.ptr);
     WaitSecs(.5)
 
@@ -32,10 +33,10 @@ for iTrial = 1:height(trialMat)
 
 
 
-%sendLJ_Matlab(L,condCode);
+    %sendLJ_Matlab(L,condCode);
     vbl = Screen('Flip',w.ptr);
     onsetTime = GetSecs;
-    
+
 
     responseMade = false;
     iFrame = 0;
@@ -44,7 +45,7 @@ for iTrial = 1:height(trialMat)
     while ~responseMade
         iFrame = iFrame + 1;
 
-      % Animation
+        % Animation
         moveDots(target); % move the dots.
         checkIfOut(target); % check if any dots are outside the aperture.
         checkIfDead(target); % check if any dots are dead.
@@ -66,7 +67,7 @@ for iTrial = 1:height(trialMat)
 
 
         [ keyIsDown, secs, keyCode ] = KbCheck;
-                % Check for quits.
+        % Check for quits.
         if keyIsDown && keyCode(KbName('q'))
             sca
             error('quit')
@@ -74,40 +75,40 @@ for iTrial = 1:height(trialMat)
 
         if keyIsDown == 1
             responseMade = true;
+             trialMat.RT(iTrial) = secs - onsetTime;
             if keyCode(KbName('m')) == 1
                 if targetDir == 0
                     trialMat.Correct(iTrial) = 1;
                     % sendLJ_Matlab(L,2);
-                    fix_colour = [0, 255, 0];
+                    % fix_colour = [0, 255, 0];
                 else
                     trialMat.Correct(iTrial) = 0;
                     %  sendLJ_Matlab(L,3);
-                    fix_colour = [255, 0, 0];
+                    %   fix_colour = [255, 0, 0];
                 end
             elseif keyCode(KbName('z')) == 1
                 if targetDir == 180
                     trialMat.Correct(iTrial) = 1;
                     % sendLJ_Matlab(L,2);
-                    fix_colour = [0, 255, 0];
+                    % fix_colour = [0, 255, 0];
                 else
                     trialMat.Correct(iTrial) = 0;
                     % sendLJ_Matlab(L,3);
-                    fix_colour = [255,0, 0];
+                    %  fix_colour = [255,0, 0];
                 end
             end
 
-            if ~practice
-                fix_colour = [255, 255,255];
+            if practice && trialMat.Correct(iTrial) == 0
+                sound(y, Fs, 16);
             end
-            trialMat.RT(iTrial) = secs - onsetTime;
         end
     end
 
 
 
-if mod(iTrial,32) == 0
-breakScreen(w);
-end
+    if mod(iTrial,32) == 0
+        breakScreen(w);
+    end
 
     % Pause for EEG
     %    Screen('Flip',w.ptr)
