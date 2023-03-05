@@ -10,14 +10,16 @@ startFlankerTask(L,w,trialsPerCondition,display,filename,coherence,data);
 
 
 
-% Close the Psychtoolbox Window.
-ShowCursor
+
 % Close LabJack
 %closeLJ_Matlab(L)
+
 % Free the keys!
 RestrictKeysForKbCheck([])
 
 leaderboard = createLeaderboard;
 drawLeaderboard(w,leaderboard,data)
+
+ShowCursor
 % Close the Screen.
 Screen('CloseAll')
