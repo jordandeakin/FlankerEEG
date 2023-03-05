@@ -16,5 +16,8 @@ ShowCursor
 %closeLJ_Matlab(L)
 % Free the keys!
 RestrictKeysForKbCheck([])
+
+leaderboard = createLeaderboard;
+drawLeaderboard(w,leaderboard,data)
 % Close the Screen.
 Screen('CloseAll')
