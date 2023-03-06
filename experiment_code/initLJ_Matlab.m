@@ -8,7 +8,7 @@ try
     
     %Used for casting a value to a CHANNEL enum
     L.chanType = LabJack.LabJackUD.CHANNEL.LOCALID.GetType;
-    
+
     %Open the first found LabJack U3.
     [ljerror, L.ljhandle] = L.ljudObj.OpenLabJack(LabJack.LabJackUD.DEVICE.U3, LabJack.LabJackUD.CONNECTION.USB, '0', true, 0);
     

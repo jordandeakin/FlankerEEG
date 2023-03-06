@@ -5,12 +5,12 @@ switch trialType
     case "Flanker"
         % Full factorial design of Target Direction, Coherence & Congruency
         trialMat = fullfact([2 length(coherence) 2]);
-        trialMat = array2table(trialMat,'VariableNames',["TargetDir","Coherence","Congruency"]);
+        trialMat = array2table(trialMat,'VariableNames',{'TargetDir','Coherence','Congruency'});
 
     case "Single"
         % Full factorial design of Target Direction & Coherence
         trialMat = fullfact([2 length(coherence)]);
-    trialMat = array2table(trialMat,'VariableNames',["TargetDir","Coherence"]);
+    trialMat = array2table(trialMat,'VariableNames',{'TargetDir','Coherence'});
 
 end
 
@@ -49,5 +49,7 @@ end
 % Add trial numbers and practice labels.
 trialMat.CondCode = conditionCode';
 trialMat = trialMat(randperm(size(trialMat, 1)), :);
-trialMat = addvars(trialMat,(1:height(trialMat))','before',1,'NewVariableNames','Trial');
-trialMat = addvars(trialMat,repmat(practice,height(trialMat),1),'after','Trial','NewVariableNames','Practice');
+
+trialMat.Trial = (1:height(trialMat))';
+trialMat.Practice = repmat(practice,height(trialMat),1);
+%trialMat = addvars(trialMat,repmat(practice,height(trialMat),1),'after','Trial','NewVariableNames','Practice');

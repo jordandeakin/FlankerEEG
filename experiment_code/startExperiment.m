@@ -1,12 +1,12 @@
 function startExperiment(coherence, trialsPerCondition)
 % Initalise LabJack & Display
-L =[];% initLJ_Matlab();
+L =[];%initLJ_Matlab();
 [data,w, filename, display] = initDisplay();
 RestrictKeysForKbCheck(KbName('space'));
 
 
 startBaseline(L,w,trialsPerCondition,display,filename,coherence,data);
-startFlankerTask(L,w,trialsPerCondition,display,filename,coherence,data);
+%startFlankerTask(L,w,trialsPerCondition,display,filename,coherence,data);
 
 
 

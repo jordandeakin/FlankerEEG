@@ -10,7 +10,7 @@ end
 
 
 
-DrawFormattedText2(sprintf('<color=00FFFF><b>%s!<b><color>\n\n\',welcome),'win',w.ptr,'sx','center','sy',w.Yrect-100,'xalign','center','yalign','center','xlayout','center','baseColor',[255 255 255],'wrapat',100);
+DrawFormattedText2(sprintf('<color=00FFFF><b>%s!<b><color>\n\n',welcome),'win',w.ptr,'sx','center','sy',w.Yrect-100,'xalign','center','yalign','center','xlayout','center','baseColor',[255 255 255],'wrapat',100);
 DrawFormattedText2('In this task, you will see a circular field of moving dots known as a <b>random dot kinematogram<b>.','win',w.ptr,'sx','center','sy','center','xalign','center','yalign','center','xlayout','center','baseColor',[255 255 255],'wrapat',40);
 
 DrawFormattedText(w.ptr,'Press space to continue','center',w.Yrect+300,[0 255 255],100,[],[],2);
