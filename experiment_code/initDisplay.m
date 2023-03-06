@@ -11,7 +11,7 @@ PsychDefaultSetup(2);
 screens = Screen('Screens');
 screenNumber = max(screens);
 
-window.ptr = Screen('OpenWindow',screenNumber,[0 0 0]);
+window.ptr = Screen('OpenWindow',screenNumber,[0 0 0],[0 0 800 400]);
 
 % Measure the vertical refresh rate of the monitor
 [x,y] = Screen('WindowSize', screenNumber);
